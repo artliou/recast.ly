@@ -4,10 +4,12 @@ class App extends React.Component {
     super(props);
     this.state = { 
       videos: exampleVideoData,
-      currentVideo: exampleVideoData[0]
+      currentVideo: exampleVideoData[0],
+      autoplay: false
     };
     this.handleTitleClick = this.handleTitleClick.bind(this);
     this.search = this.search.bind(this);
+    this.autoButtonClick = this.autoButtonClick.bind(this);
 
   }
 
@@ -27,8 +29,14 @@ class App extends React.Component {
     ));
   }
 
+  autoButtonClick() {
+    this.setState({autoplay: !this.state.autoplay});
+  }
+  
   handleTitleClick(video) {
-    this.setState( {currentVideo: video} );
+    this.setState({
+      currentVideo: video
+    });
   }
 
   render() {
@@ -41,9 +49,10 @@ class App extends React.Component {
         </nav>
         <div className="row">
           <div className="col-md-7">
-             <div><VideoPlayer video={this.state.currentVideo} /></div>
+             <div><VideoPlayer video={this.state.currentVideo} autoplay={this.state.autoplay}/></div>
           </div>
           <div className="col-md-5">
+            <AutoPlay autoButtonClick={this.autoButtonClick} />
             <div>
               <VideoList 
                 videos={this.state.videos}
