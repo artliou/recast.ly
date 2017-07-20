@@ -1,5 +1,5 @@
 var searchYouTube = ( {key = YOUTUBE_API_KEY, query, max = 5 }, callback) => {
-  $.get('https://www.googleapis.com/youtube/v3/search', {
+  setTimeout($.get.bind(null, ('https://www.googleapis.com/youtube/v3/search', {
     part: 'snippet',
     key: key,
     q: query, 
@@ -12,7 +12,8 @@ var searchYouTube = ( {key = YOUTUBE_API_KEY, query, max = 5 }, callback) => {
     }
   }).fail((err) => {
     console.log('GET failed', err);
-  });
+  }), 500)
+  );
 };
 
 window.searchYouTube = searchYouTube;
