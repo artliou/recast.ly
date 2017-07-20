@@ -5,28 +5,43 @@ class App extends React.Component {
     this.state = { 
       videos: exampleVideoData,
       currentVideo: exampleVideoData[0],
-      autoplay: false
+      autoplay: false,
+      videoPage: 0,
+      pageRender: exampleVideoData
     };
     this.handleTitleClick = this.handleTitleClick.bind(this);
     this.search = this.search.bind(this);
     this.autoButtonClick = this.autoButtonClick.bind(this);
-
+    this.handlePageChange = this.handlePageChange.bind(this);
   }
 
   componentDidMount() {
-    this.search('react tutorial');
+    this.search('react tutorials');
   }
 
   search(query) {
     var options = {
       query: query,
+      max: 20
     };
     this.props.searchYouTube(options, (incoming) => (
       this.setState( {
         videos: incoming,
-        currentVideo: incoming[0]
+        currentVideo: incoming[0],
+        pageRender: incoming.slice(0, 5),
+        videoPage: 0
       })
     ));
+  }
+
+  handlePageChange(event) {
+    this.setState(
+      {videoPage: event.target.value},
+      () => { 
+        this.setState({
+          pageRender: this.state.videos.slice(this.state.videoPage * 5, (this.state.videoPage * 5) + 5)
+        });
+      });
   }
 
   autoButtonClick() {
@@ -54,12 +69,19 @@ class App extends React.Component {
           <div className="col-md-5">
             <div>
               Toggle AutoPlay
-              <AutoPlay autoButtonClick={this.autoButtonClick} /> </div>
+              <AutoPlay autoButtonClick={this.autoButtonClick} /> 
+            </div>
             <div>
               <VideoList 
-                videos={this.state.videos}
+                videos={this.state.pageRender}
                 handleTitleClick={this.handleTitleClick}/>
             </div>
+            <select value={this.state.videoPage} onChange={this.handlePageChange}>
+              <option value="0">Page 1</option>
+              <option value="1">Page 2</option>
+              <option value="2">Page 3</option>
+              <option value="3">Page 4</option>
+            </select>
           </div>
         </div>
       </div>
