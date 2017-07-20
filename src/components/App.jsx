@@ -7,21 +7,36 @@ class App extends React.Component {
       currentVideo: exampleVideoData[0]
     };
     this.handleTitleClick = this.handleTitleClick.bind(this);
+    this.search = this.search.bind(this);
 
   }
 
-  handleTitleClick(e) {
-    console.log(e);
-    var value = e.val();
-    this.setState( {currentVideo: value} );
+  componentDidMount() {
+    this.search('react tutorial');
   }
-  
+
+  search(query) {
+    var options = {
+      query: query,
+    };
+    this.props.searchYouTube(options, (incoming) => (
+      this.setState( {
+        videos: incoming,
+        currentVideo: incoming[0]
+      })
+    ));
+  }
+
+  handleTitleClick(video) {
+    this.setState( {currentVideo: video} );
+  }
+
   render() {
     return (
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <div><h5><em>search</em> view goes here</h5></div>
+            <div><Search search={this.search}/></div>
           </div>
         </nav>
         <div className="row">
@@ -32,7 +47,7 @@ class App extends React.Component {
             <div>
               <VideoList 
                 videos={this.state.videos}
-                onClick={this.handleTitleClick}/>
+                handleTitleClick={this.handleTitleClick}/>
             </div>
           </div>
         </div>
@@ -40,41 +55,6 @@ class App extends React.Component {
     );
   }
 }
-
-
-/****
-instantiate the class app
-set up constructor & props
-set thisState = {};
-
-render
-return
-div tags
-nav bar with search component
-videoplayer component
-videoList component
-
-***/
-
-// var App = () => (
-//   <div>
-//     <nav className="navbar">
-//       <div className="col-md-6 offset-md-3">
-//         <div><h5><em>search</em> view goes here</h5></div>
-//       </div>
-//     </nav>
-//     <div className="row">
-//       <div className="col-md-7">
-//         <div><VideoPlayer video={exampleVideoData[0]} /></div>
-//       </div>
-//       <div className="col-md-5">
-//         <div>
-//           <VideoList videos={exampleVideoData}/>
-//         </div>
-//       </div>
-//     </div>
-//   </div>
-// );
 
 // In the ES6 spec, files are "modules" and do not share a top-level scope
 // `var` declarations will only exist globally where explicitly defined

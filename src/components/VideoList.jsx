@@ -3,7 +3,8 @@ var VideoList = ( { videos, handleTitleClick } ) => (
     { 
       videos.map(video => 
         <VideoListEntry video={video}
-          onClick={handleTitleClick}
+          key={video.id.videoId}
+          handleTitleClick={handleTitleClick}
         />)
     }
   </div>
