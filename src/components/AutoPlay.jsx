@@ -1,6 +1,6 @@
 
 var AutoPlay = ({autoButtonClick}) => (
-  <button className="autoplay-button" onClick={autoButtonClick}></button>
+  <input type="checkbox" className="autoplay-button" onClick={autoButtonClick}></input>
 );
 
 AutoPlay.propTypes = {

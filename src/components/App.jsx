@@ -52,10 +52,9 @@ class App extends React.Component {
              <div><VideoPlayer video={this.state.currentVideo} autoplay={this.state.autoplay}/></div>
           </div>
           <div className="col-md-5">
-            Toggle AutoPlay
             <div>
-              <AutoPlay autoButtonClick={this.autoButtonClick} />
-            </div>
+              Toggle AutoPlay
+              <AutoPlay autoButtonClick={this.autoButtonClick} /> </div>
             <div>
               <VideoList 
                 videos={this.state.videos}
